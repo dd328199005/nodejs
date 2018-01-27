@@ -20,6 +20,9 @@ $('#container').on('click', '.note-status>span' ,function (e) {
    noteManager.done($(e.currentTarget))
 })
 
+
+
+
 new Navbar($('.nav-tab'))
 
 

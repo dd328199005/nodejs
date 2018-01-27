@@ -14,7 +14,9 @@ router.get('/adc', function (req, res, next) {
     yang: 2
   }
   console.log(req.params)
+  console.log(req.query)
   res.send(vard);
+
 });
 
 

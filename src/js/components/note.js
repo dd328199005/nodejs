@@ -111,11 +111,11 @@ class NoteManager {
     }
 }
 
-$('.note-text').on('focus', function () {
+$('#container').on('focus', '.note-text', function () {
     let $parent = $(this).parent()
     $parent.addClass('zindex')
 })
-$('.note-text').on('blur', function () {
+$('#container').on('blur', '.note-text', function () {
     let $parent = $(this).parent()
     $parent.removeClass('zindex')
     layout('#container')

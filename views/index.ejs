@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/css/style.css' />
+    <title>nodejs</title>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <nav>
+      <div class="wrap">
+        <div class="logo">
+          <img src="./imgs/logo.png" alt="logo">
+        </div>
+        <ul class="nav-tab">
+          <li class="active">全部</li>
+          <li>已完成</li>
+          <li>
+            排序
+            <span>
+              <img src="./imgs/triangle.png" alt="triangle">
+            </span>
+          </li>
+        </ul>
+        <div class="login-btn">
+          <img src="./imgs/github.png" alt="login"> Github登录
+        </div>
+      </div>
+    </nav>
+    <div class="before-login">
+      <p>Hi Brother</p>
+    </div>
+    <article>
+      <div class="wrap">
+        <div class="js-masonry" id="container">
+    
+        </div>
+      </div>
+    </article>
+    <div class="add-note">
+      <img src="./imgs/addnote.png" alt="addnote">
+    </div>
+    <script src="/js/index.js"></script>
   </body>
 </html>
