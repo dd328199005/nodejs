@@ -27,6 +27,7 @@ nav {
                 margin: 0 15px;
                 line-height: 84px;
                 span {
+                    transform-origin: center;
                     display: inline-block;
                     line-height: 25px;
                     img {
@@ -34,6 +35,11 @@ nav {
                         height: 5px;
                         vertical-align: middle;
                         transform: rotate(180deg)
+                    }
+                }
+                span.reverse {
+                    img {
+                        transform: rotate(0deg)
                     }
                 }
                 &:hover{

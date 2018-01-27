@@ -16,9 +16,9 @@ let Toasts = class Toasts{
     }
     
     ToastActive(){
-        this.$toastNode.fadeIn(1000)
+        this.$toastNode.fadeIn(300)
         setTimeout(() => {
-            this.$toastNode.fadeOut(1000, () => this.$toastNode.remove())
+            this.$toastNode.fadeOut(500, () => this.$toastNode.remove())
         }, this.time);
     }
 

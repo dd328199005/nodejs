@@ -1,33 +1,26 @@
 import { showToast } from 'js/components/toasts.js'
 import { layout } from 'js/components/layout.js'
+import { noteManager } from 'js/components/note.js'
+import { Navbar } from 'js/components/navbar.js'
 import 'scss/_index.scss'
 import 'scss/normalize.css'
 
-showToast('设置成功')
 layout('#container')
-
-function add() {
-    let html = ` <div class="item">
-                    <div class="note-item" contenteditable="true"></div>
-                </div>`
-    $('#container').append(html)
-    layout('#container')
-}
-window.add = add
-
-$('.note-text').on('focus', function(){
-    console.log(2)
-    let $parent  = $(this).parent()
-    $parent.addClass('zindex')
-    $(this).height('500px')
+noteManager.init()
+$('.add-note').on('click', function () {
+    noteManager.add()
 })
-$('.note-text').on('blur', function(){
-    let $parent = $(this).parent()
-    $parent.removeClass('zindex')
-    layout('#container')
+$('#container').on('click','.note-date>span',  function () {
+    noteManager.remove($(this))
+})
+$('#container').on('focus', '.note-text' ,function (e) {
+   noteManager.edit($(e.currentTarget))
+})
+$('#container').on('click', '.note-status>span' ,function (e) {
+   noteManager.done($(e.currentTarget))
 })
 
-
+new Navbar($('.nav-tab'))
 
 
 
