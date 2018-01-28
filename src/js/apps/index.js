@@ -6,22 +6,19 @@ import 'scss/_index.scss'
 import 'scss/normalize.css'
 
 layout('#container')
-noteManager.init()
+// noteManager.init()
 $('.add-note').on('click', function () {
     noteManager.add()
 })
 $('#container').on('click','.note-date>span',  function () {
     noteManager.remove($(this))
 })
-$('#container').on('focus', '.note-text' ,function (e) {
+$('#container').on('blur', '.note-text' ,function (e) {
    noteManager.edit($(e.currentTarget))
 })
 $('#container').on('click', '.note-status>span' ,function (e) {
    noteManager.done($(e.currentTarget))
 })
-
-
-
 
 new Navbar($('.nav-tab'))
 

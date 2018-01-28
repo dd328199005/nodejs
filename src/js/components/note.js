@@ -3,110 +3,155 @@ import { showToast } from 'js/components/toasts.js'
 class NoteManager {
     constructor(){
         this.$parent = $('#container')
-        this.data = [
-            { 
-                id:123,
-                date: new Date(),
-                text: '初始化',
-                done: true
-            },
-            {   
-                id: 123,
-                date: new Date(),
-                text: '初始化',
-                done: true
-            },
-            {
-                id: 123,
-                date: new Date(),
-                text: '初始化',
-                done: false
+        this.getNotes()
+        this.data = null
+        this.positive = true
+    }
+    
+    noteSort(){
+        if (this.positive) {
+            this.$parent.html(' ')
+            $.get('/api/notes').then((res) => {
+                if (res.status === 200) {
+                    this.data = res.data
+                }
+            this.data = this.data.sort(function (pre,cur) {
+                return cur.date - pre.date
+            })
+            this.init()
+            layout('#container')
+            this.positive = false
+            })
+        }else{
+            this.$parent.html(' ')
+            $.get('/api/notes').then((res) => {
+                if (res.status === 200) {
+                    this.data = res.data
+                }
+                this.data = this.data.sort(function (pre, cur) {
+                    return pre.date - cur.date
+                })
+                this.init()
+                this.positive = true
+                layout('#container')
+            })
+        }
+    }
+
+    getNotes(){
+        $.get('/api/notes').then((res)=> {
+            if (res.status === 200) {
+                this.data = res.data
+                console.log(this.data)
+                this.init()
             }
-        ]
+        })
+    }
+
+    showDone(){
+        $('.item').each(function(){
+            if ($(this).find('.note-status > span').hasClass('node-btn')) {
+                $(this).remove()
+                layout('#container')
+            }
+        })
+    }
+    showAll(){
+        let that = this
+            that.$parent.html(' ')
+            that.getNotes()
+            layout('#container')
     }
     init(){
         let data = this.data
         data.forEach(item => {
-            let nowTime = item.date
-            let nowDay = nowTime.getDate()
-            let nowYear = nowTime.getFullYear()
-            let nowMouth = nowTime.getMonth() + 1
-            let noteStatus = item.done? '<span class="node-done"></span>' : '<span class="node-btn"></span>'
-            let html = $(` <div class="item">
-                    <div class="note-item" >
-                        <div class="note-date">
-                            <p>${nowYear}年${nowMouth}月${nowDay}日</p>
-                            <span><img src="./imgs/close.png" alt="close"></span>
-                        </div>
-                        <div class="note-text" contenteditable="true">
-                             ${item.text}
-                        </div>    
-                        <ul class="note-score">
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                        </ul>
-                        <div class="note-status">
-                            ${noteStatus}
-                        </div>
-                        
-                    </div>
-                </div>`)
-            this.$parent.prepend(html)
+            this.addFn(item)
         });
         
     }
-    add(){
-        let nowTime = new Date()
-        let nowDay = nowTime.getDate() 
+    addFn(item){
+        let nowTime = new Date(item.date)
+        let nowDay = nowTime.getDate()
         let nowYear = nowTime.getFullYear()
         let nowMouth = nowTime.getMonth() + 1
-        let newNote = $(` <div class="item">
-                    <div class="note-item" >
-                        <div class="note-date">
-                            <p>${nowYear}年${nowMouth}月${nowDay}日</p>
-                            <span><img src="./imgs/close.png" alt="close"></span>
+        let noteStatus = item.done ? '<span class="node-done"></span>' : '<span class="node-btn"></span>'
+        let html = $(` <div class="item">
+                        <div class="note-item" >
+                            <div class="note-date">
+                                <p>${nowYear}年${nowMouth}月${nowDay}日</p>
+                                <span><img src="./imgs/close.png" alt="close"></span>
+                            </div>
+                            <div class="note-text" contenteditable="true">
+                                ${item.text}
+                            </div>    
+                            <ul class="note-score">
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                            <div class="note-status">
+                                ${noteStatus}
+                            </div>
+                            
                         </div>
-                        <div class="note-text" contenteditable="true">
-                        </div>    
-                        <ul class="note-score">
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                        </ul>
-                        <div class="note-status">
-                            <span class="node-done" style="display:none"></span>
-                            <span class="node-btn"></span>
-                        </div>
-                        
-                    </div>
-                </div>`)
-        newNote.data('id',{
-            date: new Date(),
-            text: '初始化',
-            done: false
-        })
-        this.$parent.prepend(newNote)
+                    </div>`)
+        html.data('id', item.date)
+        this.$parent.prepend(html)
         layout('#container')
+    }
+    add(){
+        let date = +new Date()
+        let text = '初始化'
+        let done = false
+        let item = {date,text,done}
+        $.post('/api/note/create',item).then((res)=> {
+            if (res.status === 200) {
+                    this.addFn(item)
+            }
+        })
+        
     }
     remove($el){
         let $target = $el.parents('.item')
-        $target.remove()
-        layout('#container')
-        showToast('删除成功')
+        let id = $target.data('id')
+        $.post('/api/note/remove',{id}).then((res)=>{
+            if (res.status === 200) {
+                $target.remove()
+                layout('#container')
+                showToast('删除成功')
+            }
+            
+        })
+        
     }
     edit($el){
         let html = $el.html()
-        $el.html(html)
+        let $target = $el.parents('.item')
+        let id = $target.data('id')
+        $.post('/api/note/edit', { id,html }).then((res) => {
+            if (res.status === 200) {
+                $el.html(html)
+                layout('#container')
+                showToast('修改成功')
+            }
+
+        })
+        
+        
     }
     done($el){
         if ($el.hasClass('node-done')) return showToast('已经完成啦')
-        $el.removeClass('node-btn').addClass('node-done')
-        showToast('完成')
+        let id = $el.parents('.item').data('id')
+        let done = true
+        $.post('/api/note/edit', { id, done }).then((res) => {
+            if (res.status === 200) {
+                $el.removeClass('node-btn').addClass('node-done')
+                showToast('完成')
+            }
+        })
+       
         
     }
 }

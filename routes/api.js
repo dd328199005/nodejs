@@ -1,22 +1,41 @@
 var express = require('express');
 var router = express.Router();
-
+var Note = require('../model/note.js')
 /* GET users listing. */
 router.get('/notes', function (req, res, next) {
-    console.log(1)
-    req.query.note
-});
-router.post('/note/create', function (req, res, next) {
-    console.log(2)
-    req.body.note
-})
-router.post('/note/edit', function (req, res, next) {
-    console.log(3)
-});
-router.post('/note/remove', function (req, res, next) {
-    console.log(4)
+    Note.findAll({raw: true}).then(function (notes) {
+        res.send({status:200, data:notes})
+    })
+    // req.query.note
 });
 
+router.post('/note/create', function (req, res, next) {
+    let note = req.body
+    console.log(note)
+    Note.create(note).then(function () {
+        res.send({status: 200})
+    }).catch(function (err) {
+        console.log(err)
+        res.send({status:204,errorMsg:'数据错误'})
+    })
+})
+
+router.post('/note/edit', function (req, res, next) {
+    console.log(req.body)
+    Note.update({text: req.body.html, done: req.body.done || false}, {where:{date: req.body.id}}).then(function () {
+        res.send({status: 200})
+    }).catch(function () {
+        res.send({ status: 204, errorMsg: '数据错误' })
+    })
+});
+
+router.post('/note/remove', function (req, res, next) {
+    Note.destroy({where:{date: req.body.id}}).then(function () {
+        res.send({status: 200})
+    }).catch(function () {
+        res.send({ status: 204, errorMsg: '数据错误' })
+    })
+});
 
 
 module.exports = router;

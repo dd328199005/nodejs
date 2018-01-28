@@ -4,6 +4,7 @@
     &>.item{
         transition: all .3s ease ;
         .note-item{
+            transition: all .3s ease ;
             margin: 16px;
             font-size: 16px;
             box-sizing: border-box;
@@ -16,6 +17,8 @@
             border: 1px solid $line-color;
             &:hover,&:focus {
                 @include div-shadow;
+                position: relative;
+                top: -2px;
                 }
             .note-date {
                 color: $text-color-three;

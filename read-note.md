@@ -57,5 +57,7 @@ app.get('/user/:id', function (req, res, next) {
 
 # onchange wath库
 
+# node-inspector  nodejs调试工具  【node --debug xxxxx.js】
+
 
 
