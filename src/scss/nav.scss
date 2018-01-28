@@ -71,6 +71,10 @@ nav {
             color: white;
             line-height: 50px;
             text-align: center;
+            a {
+                color: #ffffff;
+                text-decoration: none;
+            }
             &>img {
                 vertical-align: middle;
                 margin-top: -3px;
@@ -81,6 +85,36 @@ nav {
                     background-color: #00B793;
                     cursor: pointer;
                 }
+        }
+        .login-out {
+            display: flex;
+            color: #555555;
+            align-items: center;
+           
+            .person-img{
+                width: 40px;
+                height: 40px;
+                border-radius: 20px;
+                overflow: hidden;
+                img{
+                width: 40px;
+                height: 40px;
+                vertical-align: top;
+                }
+                
+            }
+            .person-info {
+                display: flex;
+                margin-left: 10px;
+                font-size: 16px;
+                align-items: center;
+                a{
+                    color: #555555;
+                    text-decoration: none;
+                    margin-left: 4px;
+                }
+            }
+            
         }
     }
 

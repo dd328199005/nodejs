@@ -3,7 +3,11 @@ var router = express.Router();
 var Note = require('../model/note.js')
 /* GET users listing. */
 router.get('/notes', function (req, res, next) {
-    Note.findAll({raw: true}).then(function (notes) {
+    var opts = { raw: true }
+    if (req.session && req.session.user) {
+        opts.where = { uid: req.session.user.id }
+    }
+    Note.findAll(opts).then(function (notes) {
         res.send({status:200, data:notes})
     })
     // req.query.note
@@ -11,18 +15,17 @@ router.get('/notes', function (req, res, next) {
 
 router.post('/note/create', function (req, res, next) {
     let note = req.body
+    note.uid = req.session.user.id
     console.log(note)
     Note.create(note).then(function () {
         res.send({status: 200})
     }).catch(function (err) {
-        console.log(err)
         res.send({status:204,errorMsg:'数据错误'})
     })
 })
 
 router.post('/note/edit', function (req, res, next) {
-    console.log(req.body)
-    Note.update({text: req.body.html, done: req.body.done || false}, {where:{date: req.body.id}}).then(function () {
+    Note.update({text: req.body.html, done: req.body.done || false}, {where:{date: req.body.id, uid:req.session.user.id}}).then(function () {
         res.send({status: 200})
     }).catch(function () {
         res.send({ status: 204, errorMsg: '数据错误' })
@@ -30,7 +33,7 @@ router.post('/note/edit', function (req, res, next) {
 });
 
 router.post('/note/remove', function (req, res, next) {
-    Note.destroy({where:{date: req.body.id}}).then(function () {
+    Note.destroy({ where: { date: req.body.id, uid: req.session.user.id}}).then(function () {
         res.send({status: 200})
     }).catch(function () {
         res.send({ status: 204, errorMsg: '数据错误' })

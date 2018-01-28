@@ -19,14 +19,28 @@
             </span>
           </li>
         </ul>
+        <% if (!isLogin){ %>
         <div class="login-btn">
-          <img src="./imgs/github.png" alt="login"> Github登录
+          <img src="./imgs/github.png" alt="login"> 
+          <a href="/auth/github">Github登录</a>
         </div>
+        <%} else { %>
+        <div class="login-out">
+          <div class="person-img">
+            <img src="<%= user.avatar %>" alt="person-img">
+          </div>
+          <div class="person-info">
+            <p><%= user.username %></p><a href="/auth/logout">| 注销</a>
+          </div>
+        </div>
+        <% } %>
       </div>
     </nav>
+    <% if (!isLogin){ %>
     <div class="before-login">
       <p>Hi Brother</p>
     </div>
+    <%} else { %>
     <article>
       <div class="wrap">
         <div class="js-masonry" id="container">
@@ -36,6 +50,7 @@
     <div class="add-note">
       <img src="./imgs/addnote.png" alt="addnote">
     </div>
+    <% } %>
     <script src="/js/index.js"></script>
   </body>
 </html>

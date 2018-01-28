@@ -34,6 +34,9 @@ const Note = sequelize.define('note', {
     },
     done: {
         type: Sequelize.BOOLEAN 
+    },
+    uid: {
+        type: Sequelize.STRING
     }
 });
 
@@ -47,7 +50,6 @@ Note.sync({force: true}).then(function () {
     });
 }).then(function () {
     Note.findAll({raw: true}).then(function (notes) {
-        console.log(notes)
     })
 })
 

@@ -42,7 +42,6 @@ class NoteManager {
         $.get('/api/notes').then((res)=> {
             if (res.status === 200) {
                 this.data = res.data
-                console.log(this.data)
                 this.init()
             }
         })
