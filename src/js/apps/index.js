@@ -5,7 +5,9 @@ import { Navbar } from 'js/components/navbar.js'
 import 'scss/_index.scss'
 import 'scss/normalize.css'
 
+
 layout('#container')
+
 // noteManager.init()
 $('.add-note').on('click', function () {
     noteManager.add()

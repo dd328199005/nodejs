@@ -2,6 +2,45 @@
 <html>
   <head>
     <title>nodejs</title>
+    <style>
+       .screen {
+            margin-top: -10px;
+            height: calc(100vh - 85px);
+            overflow: hidden;
+        }
+        .screen img {
+            width: 120%;
+            margin-left: -10%;
+            margin-top: -20%;
+        }
+       .screen li {
+            font-size: 80px;
+            color: white;
+        }
+       .screen .text {
+            width: 400px;
+            height: 400px;
+            border-radius: 20px;
+            left: 50% !important;
+            top: 50% !important;
+            /* transform: translate(-50%,-50%) !important */
+            margin-left: -127px;
+            margin-right: -56px;
+            margin-top: -50px;
+            font-weight: bold;
+            text-shadow: #00000073 0 12px 24px;
+        } 
+        .screen .text-two {
+          font-size: 20px;
+          color: #c0c0c0;
+          font-weight: 300;
+          left: 50% !important;
+          top: 50% !important;
+          margin-left: -70px;
+          margin-top: 40px;
+        }
+       
+    </style>
   </head>
   <body>
     <nav>
@@ -37,8 +76,15 @@
       </div>
     </nav>
     <% if (!isLogin){ %>
-    <div class="before-login">
-      <p>Hi Brother</p>
+    <div id="top-image">
+        <ul id="scene" class="screen">
+            
+            <li data-depth="0.7">
+                <img src="/imgs/bg.jpg" alt="">
+            </li>
+            <li class="text" data-depth="0.3">Daskys</li>
+            <li class="text-two" data-depth="0.5">点击右上角登录</li>
+        </ul>
     </div>
     <%} else { %>
     <article>
@@ -51,6 +97,26 @@
       <img src="./imgs/addnote.png" alt="addnote">
     </div>
     <% } %>
+
+
     <script src="/js/index.js"></script>
+    <script src="/js/parallax.min.js"></script>
+    <script>
+      var scene = document.getElementById('scene')
+        var parallaxInstance = new Parallax(scene, {
+          relativeInput: true,
+          clipRelativeInput: false,
+          hoverOnly: true,
+          calibrateX: false,
+          calibrateY: true,
+          invertX: false,
+          invertY: true,
+          limitX: false,
+          limitY: 10,
+          scalarX: 1,
+          scalarY: 6,
+          frictionX: 0.2,
+        })
+    </script>
   </body>
 </html>
