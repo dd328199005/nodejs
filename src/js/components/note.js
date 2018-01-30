@@ -98,7 +98,10 @@ class NoteManager {
                     </div>`)
         html.data('id', item.date)
         this.$parent.prepend(html)
-        layout('#container')
+        if ($('#container').length >0) {
+            layout('#container')
+        }
+        
     }
     add(){
         let date = +new Date()
@@ -165,5 +168,4 @@ $('#container').on('blur', '.note-text', function () {
     layout('#container')
 })
 
-let noteManager = new NoteManager()
-export { noteManager } 
+export let noteManager = new NoteManager()

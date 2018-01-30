@@ -12,7 +12,7 @@ var auth = require('./routes/auth');
 var app = express();
 
 var passport = require('passport');
-var session = require('express-session');
+var session = require('express-session');//登录注册需要引入模块
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({ secret: 'sessionsecret' }));
+app.use(session({ secret: 'sessionsecret' }));//登录注册需要引入模块
 app.use(passport.initialize());
 app.use(passport.session()); 
 

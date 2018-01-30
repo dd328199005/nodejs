@@ -49,6 +49,7 @@
           <img src="./imgs/logo.png" alt="logo">
         </div>
         <ul class="nav-tab">
+          <% if (isLogin){ %>
           <li class="active">全部</li>
           <li>已完成</li>
           <li>
@@ -57,6 +58,7 @@
               <img src="./imgs/triangle.png" alt="triangle">
             </span>
           </li>
+          <% } %>
         </ul>
         <% if (!isLogin){ %>
         <div class="login-btn">
@@ -102,7 +104,8 @@
     <script src="/js/index.js"></script>
     <script src="/js/parallax.min.js"></script>
     <script>
-      var scene = document.getElementById('scene')
+      if (document.getElementById('scene')) {
+        var scene = document.getElementById('scene')
         var parallaxInstance = new Parallax(scene, {
           relativeInput: true,
           clipRelativeInput: false,
@@ -117,6 +120,8 @@
           scalarY: 6,
           frictionX: 0.2,
         })
+      }
+      
     </script>
   </body>
 </html>
